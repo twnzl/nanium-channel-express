@@ -19,8 +19,7 @@ await Nanium.addManager(new NaniumNodejsProvider({
   requestChannels: [
     new NaniumExpressHttpChannel({
       apiPath: '/api',
-      server: expressApp,
-      executionContextConstructor: Object
+      server: expressApp
     })
   ]
 }));

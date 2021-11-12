@@ -27,8 +27,7 @@ export class TestHelper {
 			requestChannels: [
 				new NaniumExpressHttpChannel({
 					apiPath: '/api',
-					expressApp: this.expressApp,
-					executionContextConstructor: Object
+					expressApp: this.expressApp
 				})
 			],
 			requestInterceptors: { test: TestServerRequestInterceptor },
