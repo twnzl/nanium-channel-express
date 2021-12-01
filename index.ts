@@ -33,14 +33,21 @@ export class NaniumExpressHttpChannel implements RequestChannel {
 		this.config.expressApp.post(this.config.apiPath, async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
 			if (req['body']) {
 				await NaniumHttpChannel.processCore(this.config, this.serviceRepository, req['body'], res);
+				res.end();
 			} else {
-				const data: any[] = [];
-				req.on('data', (chunk: any) => {
-					data.push(chunk);
-				}).on('end', async () => {
-					const body: string = Buffer.concat(data).toString();
-					const deserialized: NaniumExpressHttpChannelBody = await this.config.serializer.deserialize(body);
-					await NaniumHttpChannel.processCore(this.config, this.serviceRepository, deserialized, res);
+				await new Promise<void>((resolve: Function, reject: Function) => {
+					const data: any[] = [];
+					req.on('data', (chunk: any) => {
+						data.push(chunk);
+					}).on('error', async (e) => {
+						reject(e)
+					}).on('end', async () => {
+						const body: string = Buffer.concat(data).toString();
+						const deserialized: NaniumExpressHttpChannelBody = await this.config.serializer.deserialize(body);
+						await NaniumHttpChannel.processCore(this.config, this.serviceRepository, deserialized, res);
+						res.end();
+						resolve();
+					});
 				});
 			}
 		});
