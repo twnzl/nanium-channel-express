@@ -1,20 +1,22 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import * as express from 'express';
-import { RequestChannelConfig } from 'nanium/interfaces/requestChannelConfig';
-import { RequestChannel } from 'nanium/interfaces/requestChannel';
 import { NaniumRepository } from 'nanium/interfaces/serviceRepository';
 import { NaniumJsonSerializer } from 'nanium/serializers/json';
 import { NaniumHttpChannel } from 'nanium/managers/providers/channels/http';
+import { ChannelConfig } from 'nanium/interfaces/channelConfig';
+import { Channel } from 'nanium/interfaces/channel';
+import { EventSubscription } from 'nanium/interfaces/eventSubscriptionInterceptor';
 
-
-export interface NaniumExpressHttpChannelConfig extends RequestChannelConfig {
+export interface NaniumExpressHttpChannelConfig extends ChannelConfig {
 	expressApp: express.Express;
 	apiPath: string;
 }
 
-export class NaniumExpressHttpChannel implements RequestChannel {
+export class NaniumExpressHttpChannel implements Channel {
 	private serviceRepository: NaniumRepository;
 	private readonly config: NaniumExpressHttpChannelConfig;
+
+	eventSubscriptions: { [p: string]: EventSubscription[] };
 
 	constructor(config: NaniumExpressHttpChannelConfig) {
 		this.config = {
@@ -51,6 +53,10 @@ export class NaniumExpressHttpChannel implements RequestChannel {
 				});
 			}
 		});
+	}
+
+	emitEvent(_event: any, _subscription: EventSubscription): Promise<void> {
+		throw new Error('not implemented')
 	}
 }
 

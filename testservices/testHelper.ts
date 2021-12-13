@@ -24,7 +24,7 @@ export class TestHelper {
 		this.hasServerBeenCalled = false;
 		await Nanium.addManager(new NaniumNodejsProvider({
 			servicePath: 'dist/testservices',
-			requestChannels: [
+			channels: [
 				new NaniumExpressHttpChannel({
 					apiPath: '/api',
 					expressApp: this.expressApp
