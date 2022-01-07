@@ -5,7 +5,7 @@ import { NaniumJsonSerializer } from 'nanium/serializers/json';
 import { NaniumHttpChannel } from 'nanium/managers/providers/channels/http';
 import { ChannelConfig } from 'nanium/interfaces/channelConfig';
 import { Channel } from 'nanium/interfaces/channel';
-import { EventSubscription } from 'nanium/interfaces/eventSubscriptionInterceptor';
+import { EventSubscription } from 'nanium/interfaces/eventSubscription';
 
 export interface NaniumExpressHttpChannelConfig extends ChannelConfig {
 	expressApp: express.Express;
