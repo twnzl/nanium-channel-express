@@ -1,11 +1,11 @@
 import * as express from 'express';
 import { Nanium } from 'nanium/core';
-import { NaniumNodejsProvider } from 'nanium/managers/providers/nodejs';
 import { TestServerRequestInterceptor } from './test.request.interceptor';
 import { KindOfResponsibility } from 'nanium/interfaces/kindOfResponsibility';
 import { NaniumExpressHttpChannel } from '../index';
 import * as http from 'http'
 import * as URL from 'url';
+import { NaniumProviderNodejs } from 'nanium/managers/providers/nodejs';
 
 export class TestHelper {
 	static port: number = 8888;
@@ -22,7 +22,7 @@ export class TestHelper {
 
 		// Nanium provider and consumer
 		this.hasServerBeenCalled = false;
-		await Nanium.addManager(new NaniumNodejsProvider({
+		await Nanium.addManager(new NaniumProviderNodejs({
 			servicePath: 'dist/testservices',
 			channels: [
 				new NaniumExpressHttpChannel({
